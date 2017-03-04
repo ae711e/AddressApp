@@ -57,7 +57,7 @@ public class MainApp extends Application {
     
     /**
      * Возвращает данные в виде наблюдаемого списка адресатов
-     * @return
+     * @return  наблюдаемый список
      */
     public ObservableList<Person> getPersonData()
     {
