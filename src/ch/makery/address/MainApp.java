@@ -6,6 +6,7 @@
 package ch.makery.address;
 
 import ch.makery.address.model.Person;
+import ch.makery.address.view.PersonOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,7 +59,8 @@ public class MainApp extends Application {
      * Возвращает данные в виде наблюдаемого списка адресатов
      * @return
      */
-    public ObservableList<Person> getPersonData() {
+    public ObservableList<Person> getPersonData()
+    {
         return personData;
     }
     
@@ -106,12 +108,16 @@ public class MainApp extends Application {
         try {
             // загружаем данные об адресатах
             FXMLLoader loader = new FXMLLoader(); // загружатель fxml файлов
-            loader.setLocation(MainApp.class.getResource("view/PersonView.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
             
             // помещаем макет сведений в центр корневого макета
             this.rootLayout.setCenter(personOverview);
-            
+
+            // дадим контролеру доступ к главному приложению
+            PersonOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
