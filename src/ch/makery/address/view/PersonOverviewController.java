@@ -7,6 +7,7 @@ package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
+import ch.makery.address.util.DateUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -17,6 +18,8 @@ import javafx.scene.control.TableView;
  * Created by Алексей on 04.03.2017.
  * http://code.makery.ch/library/javafx-8-tutorial/ru/part2/
  * раздел Класс PersonOverviewController
+ *
+ * http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
  */
 public class PersonOverviewController {
 
@@ -79,6 +82,7 @@ public class PersonOverviewController {
 
 
     // 3 урок
+    // http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
 
     /**
      * Заполняет все текстовые поля, отображая подробности в адресате
@@ -87,8 +91,26 @@ public class PersonOverviewController {
      */
     private void showPersonDetails(Person person)
     {
+        if(person != null) {
+            // заполняем поля Label информацией из объекта
+            firstNameLabel.setText(person.getFirstName());
+            lastNameLabel.setText(person.getLastName());
+            streetLabel.setText(person.getStreet());
+            postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
+            cityLabel.setText(person.getCity());
 
+            // переведем дату дня рождения в строку
+            birthdayLabel.setText(DateUtil.format(person.getBirthday()));
 
+        } else {
+            // если null, то убираем весь текст из полей
+            firstNameLabel.setText("");
+            lastNameLabel.setText("");
+            streetLabel.setText("");
+            postalCodeLabel.setText("");
+            cityLabel.setText("");
+            birthdayLabel.setText("");
+        }
     }
 
 
