@@ -78,6 +78,18 @@ public class PersonOverviewController {
     }
 
 
+    // 3 урок
+
+    /**
+     * Заполняет все текстовые поля, отображая подробности в адресате
+     * Если указанный адресат null, то все текстовые поля очищаются
+     * @param person    адресат (объект типа Person)
+     */
+    private void showPersonDetails(Person person)
+    {
+
+
+    }
 
 
 
