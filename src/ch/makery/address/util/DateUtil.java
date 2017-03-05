@@ -19,7 +19,7 @@ import java.time.format.DateTimeParseException;
  */
 public class DateUtil {
     /** шаблон даты, используемый для преобразования (можно поменять на свой) */
-    private static final String DATE_PATTERN = "dd.mm.yyyy";
+    private static final String DATE_PATTERN = "dd.MM.yyyy";
 
     /**  форматировщик для даты */
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
@@ -35,7 +35,8 @@ public class DateUtil {
         if(date == null) {
             return null;
         }
-        return DATE_FORMATTER.format(date);
+        String s = DATE_FORMATTER.format(date);
+        return s;
     }
 
     /**
@@ -50,12 +51,19 @@ public class DateUtil {
     public static LocalDate parse(String dateString)
     {
         try {
-            return DATE_FORMATTER.parse(dateString, LocalDate::from);
+            LocalDate dat = DATE_FORMATTER.parse(dateString, LocalDate::from);
+            return dat;
         } catch (DateTimeParseException e) {
             return null;
         }
     }
 
+    /**
+     * Проверяет, является ли строка корректной датой
+     *
+     * @param dateString    строка, с датой
+     * @return  true - правильная дата, false - неправильная дата
+     */
     public static boolean validDate(String dateString)
     {
         // пытается преобразовать строку в дату

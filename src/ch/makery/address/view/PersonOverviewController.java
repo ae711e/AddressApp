@@ -9,6 +9,7 @@ import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,6 +67,18 @@ public class PersonOverviewController {
         // (используется лямбда-выражение)
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        //
+        // очистка дополнительной информации об адресате
+        showPersonDetails(null);
+        //
+        // слушаем изменение выбора и при изменении отображаем дполнительную
+        // информацию об адресате
+        // http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
+        // раздел "Наблюдение за выбором адресатов в таблице".
+        personTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showPersonDetails(newValue)
+        );
+
     }
 
     /**
@@ -113,7 +126,34 @@ public class PersonOverviewController {
         }
     }
 
+    /**
+     * Вызывается, когда пользователь нажимает кнопку Delete (Удалить)
+     * обработка отсутствия выбора - отображение диалогового окна
+     * Чтобы посмотреть другие примеры использования диалогов,
+     * откройте статью в блоге автора учебника "Диалоги JavaFX":
+     * http://code.makery.ch/blog/javafx-dialogs-official/
+     */
+    // http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
+    // раздел "Кнопка Delete"
+    @FXML
+    private void handleDeletePerson()
+    {
+        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        if(selectedIndex >= 0) {
+            personTable.getItems().remove(selectedIndex);
+        } else {
+            // ничего не выбрано
+            // обработка отсутствия выбора - отображение диалогового окна
+            // Чтобы посмотреть другие примеры использования диалогов,
+            // откройте статью в блоге автора учебника "Диалоги JavaFX":
+            // http://code.makery.ch/blog/javafx-dialogs-official/ .
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No selection");
+            alert.setHeaderText("Не выбрано ни одного адресата");
+            alert.setContentText("Выбери какого-нибудь адресата в таблице");
+            alert.showAndWait();
+        }
+    }
 
-
-
-}
+} // end of class
