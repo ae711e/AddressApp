@@ -15,7 +15,7 @@
   ~ 05.03.17 20:14
   -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.view.PersonEditDialogController">
    <children>
       <GridPane layoutX="14.0" layoutY="27.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
@@ -47,12 +47,12 @@
       </GridPane>
       <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <Button mnemonicParsing="false" text="Ok" prefWidth="90.0">
+            <Button mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="Ok">
                <HBox.margin>
                   <Insets bottom="5.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Cancel" prefWidth="90.0">
+            <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel">
                <HBox.margin>
                   <Insets bottom="5.0" />
                </HBox.margin>

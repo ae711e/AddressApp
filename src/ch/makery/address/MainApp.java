@@ -6,6 +6,7 @@
 package ch.makery.address;
 
 import ch.makery.address.model.Person;
+import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.PersonOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -130,4 +132,49 @@ public class MainApp extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+    
+    /**
+     * Открывает диалоговое окно для изменения деталей казанного адресата
+     * Если пользовтаель тыкнул Ok, то изменения сохраняются в предоставленном
+     * объекте адресата и возвращается true.
+     * http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
+     * @param person    объект адресата, который надо редактировать
+     * @return  true - если пользователь ткнул Ok, в противном случае false
+     */
+    public boolean showPersonEditDialog(Person person)
+    {
+        try {
+            // загружаем fxml-файл и создаем новые подмостки для всплывающего
+            // диалогового окна
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/PersonEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            // создаем подмостки диалогового окна
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            // создадим сцену для отрисовки окна и поместим на
+            // эту сцену Заякоренную панель с полями редактирования.
+            Scene scene = new Scene(page);
+            // выведем на подмостки нашу сцену с заякоренной панелью
+            dialogStage.setScene(scene);
+            
+            // загрузим контроллер редактирования персоны
+            PersonEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);  // передадим контроллеру его подмостки
+            controller.setPerson(person);       // передадим контроллеру его персону
+            
+            // отобразим диалоговое окно (высветив подмостки) и ждем пока пользователь его не закроет
+            dialogStage.showAndWait();
+            
+            boolean r;
+            r = controller.isOkClicked();
+            return r;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
 } // end of class

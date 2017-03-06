@@ -155,5 +155,49 @@ public class PersonOverviewController {
             alert.showAndWait();
         }
     }
+    
+    /**
+     * Вызывается, когда пользователь тыкает в кнопку New
+     * Открывает диалоговое окно с дополнительной информацией об адресате
+     * http://code.makery.ch/library/javafx-8-tutorial/ru/part3/
+     * раздел "Вызов диалога редактирования"
+     */
+    @FXML
+    private void handleNewPerson()
+    {
+        Person tempPerson = new Person();
+        boolean okClick;
+        okClick = mainApp.showPersonEditDialog(tempPerson);
+        if(okClick) {
+            // если нажали Ok, запишем персону
+            mainApp.getPersonData().add(tempPerson);
+        }
+    }
+    
+    /**
+     * Вызывается, когда пользовтаель тычет в кнопку Edit
+     */
+    @FXML
+    private void handleEditPerson()
+    {
+        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
+        if(selectedPerson != null) {
+            boolean okClick;
+            okClick = mainApp.showPersonEditDialog(selectedPerson);
+            if(okClick) {
+                showPersonDetails(selectedPerson);
+            }
+        } else {
+            // ничего не выбрано
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No selection");
+            alert.setHeaderText("Не выбран адресат");
+            alert.setContentText("Выберите в таблице адресата для редактирования");
+            
+            alert.showAndWait();  // отобразить окно и ждать пользователя
+        }
+    }
+    
 
 } // end of class
