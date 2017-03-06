@@ -195,7 +195,7 @@ public class PersonOverviewController {
             alert.setHeaderText("Не выбран адресат");
             alert.setContentText("Выберите в таблице адресата для редактирования");
             
-            alert.showAndWait();  // отобразить окно и ждать пользователя
+            alert.showAndWait();
         }
     }
     
