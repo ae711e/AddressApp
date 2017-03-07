@@ -19,7 +19,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 /**
  * Created by ae on 03.03.2017.
@@ -181,6 +183,49 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    
+    // ключ для сохранения имени файла в преференсах
+    private final String PREFS_KEY="filePath";
+    
+    /**
+     * Возвращает preference файла адресатов, то есть, последний открытый файл.
+     * Этот preference считывается из реестра, специфичного для конкретной операционной системы.
+     * Если preference не найдет, то возвращается null
+     * http://code.makery.ch/library/javafx-8-tutorial/ru/part5/
+     * раздел "Сохранение пользовательских настроек"
+     * @return  файл
+     */
+    public File getPersonFilePath()
+    {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        String filePath = prefs.get(PREFS_KEY, null);
+        if(filePath != null) {
+            return new File(filePath);
+        }
+        return null;
+    }
+    
+    /**
+     * Задает путь текущему загруженному файлу. Этот путь сохраняется в реестре,
+     * специфичном для конкретной операционной системы.
+     * http://code.makery.ch/library/javafx-8-tutorial/ru/part5/
+     * раздел "Сохранение пользовательских настроек"
+     * @param file  файл или null, чтобы удалить путь
+     */
+    public void setPersonFilePath(File file)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+        if(file != null) {
+            prefs.put(PREFS_KEY, file.getPath());
+            // обновление заголовка подмостков
+            primaryStage.setTitle("AddressApp - " + file.getName());
+        } else {
+            prefs.remove(PREFS_KEY);
+            // обновления заголовка окна
+            primaryStage.setTitle("AddressApp");
+        }
     }
     
 } // end of class
