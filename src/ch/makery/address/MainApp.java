@@ -9,6 +9,7 @@ import ch.makery.address.model.Person;
 import ch.makery.address.model.PersonListWrapper;
 import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.PersonOverviewController;
+import ch.makery.address.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -106,11 +107,22 @@ public class MainApp extends Application {
             Scene scene = new Scene(this.rootLayout);
             // на подмостки выводим сцену
             this.primaryStage.setScene(scene);
+            
+            // даем контроллеру доступ к главному приложению
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+            
             // показываем подмостки (освещаем их)
             this.primaryStage.show();
             
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        
+        // попытаемся загрузить последний загруженный файл с данными
+        File file = getPersonFilePath();
+        if(file != null) {
+            loadPersonDataFromFile(file);
         }
     }
     

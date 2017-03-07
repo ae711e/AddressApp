@@ -5,13 +5,16 @@
 
 package ch.makery.address.model;
 
+import ch.makery.address.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 /**
  * Created by ae on 03.03.2017.
  * Информация о персоне
+ *
  */
 public class Person {
     private final StringProperty    firstName;
@@ -102,6 +105,8 @@ public class Person {
         this.city.set(city);
     }
     
+    // аннотировали, чтобы JAXB мог преобразовать дату в строку
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate getBirthday() {
         return birthday.get();
     }

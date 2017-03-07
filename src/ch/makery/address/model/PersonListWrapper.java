@@ -17,21 +17,24 @@ import java.util.List;
  * Используется для сохранения списка адресатов в XML
  * http://code.makery.ch/library/javafx-8-tutorial/ru/part5/
  * раздел "Подготовка класса-модели для JAXB"
+ * Кстати в русской версию офигенная ошибка - нет квалификатора типа <Person>
+ *     надо смотреть ангю версию!
+ * http://code.makery.ch/library/javafx-8-tutorial/part5/
  *
  * @author Marco Jakob
  */
 
-@XmlRootElement(name="persons")
+@XmlRootElement(name = "persons")
 public class PersonListWrapper {
-    private List persons;
+    private List<Person> persons;
     
-    @XmlElement(name="person")
-    public List getPersons()
+    @XmlElement(name = "person")
+    public List<Person> getPersons()
     {
         return persons;
     }
     
-    public void setPersons(List persons)
+    public void setPersons(List<Person> persons)
     {
         this.persons = persons;
     }
