@@ -6,6 +6,7 @@
 package ch.makery.address;
 
 import ch.makery.address.model.Person;
+import ch.makery.address.model.PersonListWrapper;
 import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.PersonOverviewController;
 import javafx.application.Application;
@@ -13,12 +14,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
@@ -225,6 +231,66 @@ public class MainApp extends Application {
             prefs.remove(PREFS_KEY);
             // обновления заголовка окна
             primaryStage.setTitle("AddressApp");
+        }
+    }
+    
+    // урок 5
+    // http://code.makery.ch/library/javafx-8-tutorial/ru/part5/.
+    
+    /**
+     * Загружает информацию об адресатах из указанного файла
+     * Текущая информация об адресатах будет заменена.
+     * @param file  файл с данными в XML формате
+     */
+    public void loadPersonDataFromFile(File file)
+    {
+        try {
+            JAXBContext context = JAXBContext.newInstance(PersonListWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+            // Чтение XML-файла и демаршализация
+            PersonListWrapper wrapper = (PersonListWrapper) um.unmarshal(file);
+            personData.clear();
+            personData.addAll(wrapper.getPersons());
+            
+            // сохраняем путь к файлу в префсах, то бишь, в реестре
+            setPersonFilePath(file);
+            
+        } catch (JAXBException e) {
+            //e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Не могу загрузить данные.");
+            alert.setContentText("Не загружается файл: " + file.getPath());
+            
+            alert.showAndWait();
+        }
+    }
+    
+    public void savePersonDataToFile(File file)
+    {
+        try {
+            JAXBContext context = JAXBContext.newInstance(PersonListWrapper.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            
+            // обертывавем данные об адресатах
+            PersonListWrapper wrapper = new PersonListWrapper();
+            wrapper.setPersons(personData);
+            
+            // маршалируем (сопровождаем) и сохраняем в файл
+            m.marshal(wrapper, file);
+            
+            // сохраним путь к файлу в реестре
+            setPersonFilePath(file);
+            
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Не могу сохранить данные.");
+            alert.setContentText("Не записывается файл: " + file.getPath());
+            
+            alert.showAndWait();
         }
     }
     

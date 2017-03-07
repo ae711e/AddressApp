@@ -162,7 +162,6 @@ public class PersonEditDialogController {
             alert.showAndWait();
             return false;
         }
-        
     }
     
 } // end of class
