@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -72,7 +73,10 @@ public class MainApp extends Application {
     {
         this.primaryStage = stage;
         this.primaryStage.setTitle("AddressApp");
-        
+        // установить иконку для приложения
+        // http://code.makery.ch/library/javafx-8-tutorial/ru/part4/
+        // раздел "Установка иконки для сцены"
+        this.primaryStage.getIcons().add(new Image("file:resources/images/address_book_64.png"));
         initRootLayout();
         
         showPersonOverview();
@@ -154,6 +158,8 @@ public class MainApp extends Application {
             dialogStage.setTitle("Edit person");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
+            // добавим иконку на диалоговое окно
+            dialogStage.getIcons().add(new Image("file:resources/images/person_32.png"));
             // создадим сцену для отрисовки окна и поместим на
             // эту сцену Заякоренную панель с полями редактирования.
             Scene scene = new Scene(page);
