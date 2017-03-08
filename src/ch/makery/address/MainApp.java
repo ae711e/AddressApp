@@ -7,6 +7,7 @@ package ch.makery.address;
 
 import ch.makery.address.model.Person;
 import ch.makery.address.model.PersonListWrapper;
+import ch.makery.address.view.BirthdayStatisticsController;
 import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.PersonOverviewController;
 import ch.makery.address.view.RootLayoutController;
@@ -303,6 +304,31 @@ public class MainApp extends Application {
             alert.setContentText("Не записывается файл: " + file.getPath());
             
             alert.showAndWait();
+        }
+    }
+
+    public void showBirthdayStatistics()
+    {
+        try {
+            // загружаем fxml-файл и создаем новые подмостки
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BirthdayStatistics.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Birthday Statistics");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            // передает адресатов в контроллер
+            BirthdayStatisticsController controller = loader.getController();
+            controller.setPersonData(personData);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     

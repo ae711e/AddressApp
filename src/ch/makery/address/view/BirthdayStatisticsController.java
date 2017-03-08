@@ -72,8 +72,7 @@ public class BirthdayStatisticsController {
         // добавляем его в серии
         for(int i=0; i < monthCounter.length; i++) {
             String  ss = (String) monthNames.get(i);
-            Integer ii = new Integer(monthCounter[i]);
-            series.getData().add(new XYChart.Data<>(ss, ii));
+            series.getData().add(new XYChart.Data<>(ss, monthCounter[i]));
         }
 
         barChart.getData().add(series);
