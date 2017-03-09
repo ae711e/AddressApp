@@ -13,12 +13,10 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 
-import java.lang.reflect.Array;
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
 
 /**
  * Created by ae on 08.03.2017.
@@ -30,12 +28,12 @@ import java.util.Observable;
 public class BirthdayStatisticsController {
 
     @FXML
-    private BarChart    barChart;
+    private BarChart<String, Integer>    barChart;
 
     @FXML
     private CategoryAxis xAxis;
 
-    private ObservableList monthNames = FXCollections.observableArrayList();
+    private ObservableList<String> monthNames = FXCollections.observableArrayList();
 
     @FXML
     private void initialize()
@@ -71,12 +69,10 @@ public class BirthdayStatisticsController {
         // создаем объект XYChart.Data для каждого месяца
         // добавляем его в серии
         for(int i=0; i < monthCounter.length; i++) {
-            String  ss = (String) monthNames.get(i);
-            series.getData().add(new XYChart.Data<>(ss, monthCounter[i]));
+            series.getData().add(new XYChart.Data<>(monthNames.get(i), monthCounter[i]));
         }
 
         barChart.getData().add(series);
-
     }
 
-}
+} // end of class
